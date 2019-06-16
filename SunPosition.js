@@ -24,6 +24,7 @@ function rightAscensionFromRad(rad)
 
 var today = Date.now();
 
+//30 days between 1970 and 2000
 var daysJ2000 = (today / 1000/365.25/24/3600 - 30) * 365.25;
 
 console.log(daysJ2000);
@@ -51,3 +52,64 @@ var printRA = rightAscensionFromRad(RA);
 var DEC = radToDeg(Math.asin(Math.sin(eclipticObliquity) * Math.sin(eclipticLongitude)).toFixed(3));
 
 console.log(printRA, DEC);
+
+function getLocation(callback) {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(callback);
+    } else {
+        console.log("Geolocation is not supported by this browser.");
+    }
+}
+
+function myOnLoad(){
+    console.log("Starting OnLoad");
+    getLocation(x =>
+        {
+    var latText = document.getElementById("locationLatitude");
+    var longText = document.getElementById("locationLongitude");
+
+    latText.innerHTML = x.coords.latitude.toFixed(2).toString() + (x.coords.latitude > 0 ? "N" : "S");
+    longText.innerHTML = x.coords.longitude.toFixed(2).toString() + (x.coords.longitude > 0 ? "E" : "W");
+
+
+    var zenDecText = document.getElementById("ZenithDec");
+    var zenRAText = document.getElementById("ZenithRA");
+
+    zenDecText.innerHTML = x.coords.latitude.toFixed(2).toString();
+    zenRAText.innerHTML = greenwichSiderealTime2(x).toFixed(2).toString();
+
+
+    var sunDecText = document.getElementById("sunDec");
+    var sunRAText = document.getElementById("sunRA");
+
+    sunDecText.innerHTML = DEC.toFixed(2);
+    sunRAText.innerHTML = printRA;
+
+
+    var angleText = document.getElementById("angleValue");
+
+    var angle = haversine(degToRad(x.coords.latitude), degToRad(greenwichSiderealTime2(x)*15), degToRad(DEC), RA);
+    angleText.innerHTML = angle;
+}
+    );
+    console.log("Finished");
+}
+
+function greenwichSiderealTime2(location) {
+    var days0 = Math.floor(daysJ2000);
+    var hours = (daysJ2000 - days0)*24;
+    var centuries = daysJ2000 / 36525;
+
+    var GMST = (6.697374558 + 0.06570982441908*days0  + 1.00273790935*hours +  0.000026*(centuries^2))%24 + 12;
+    console.log(GMST)
+
+    var lst = GMST + location.coords.longitude / 15;
+
+    return lst;
+
+}
+
+function haversine(d1,r1, d2,r2){
+    var a = (Math.sin(0.5*(d2-d1)))^2 + Math.cos(d1)*Math.cos(d2) * (Math.sin(0.5*(r2-r1)))^2;
+    return 2 * Math.asin(Math.sqrt(a));
+}

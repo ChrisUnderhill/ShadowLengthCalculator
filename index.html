@@ -5,6 +5,7 @@
     <title>Shadow Length Calculator</title>
     <link rel="stylesheet" type="text/css" href="main.css"/>
     <script src="calculator.js"></script>
+    <script src="SunPosition.js"></script>
     <script>
         function onHeightChanged() {
             inputHeight = document.getElementById("height")
@@ -14,7 +15,7 @@
         }
     </script>
 </head>
-<body>
+<body onload="myOnLoad()">
 
 <div class="content">
     <h1>Shadow Length Calculator</h1>
@@ -26,7 +27,10 @@
         <!-- TODO: Get location -->
 
     </form>
-
+    <p id="location">You are at <span id="locationLatitude" >0</span> <span id="locationLongitude" >0</span></p>
+    <p id="zenith">Zenith is at Dec:<span id="ZenithDec" >0</span> RA:<span id="ZenithRA" >0</span></p>
+    <p id="sun">Sun is at Dec:<span id="sunDec" >0</span> RA:<span id="sunRA" >0</span></p>
+    <p id="angle">The angle between the two is <span id="angleValue" >0</span></p>
     <p id="output">Your shadow will be <span id="outputHeight" >0</span>m long</p>
 </div>
 
