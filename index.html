@@ -22,7 +22,7 @@
 
     <form>
         <label for="height">Height (m)</label>
-        <input id="height" onchange="onHeightChanged()"/>
+        <input id="height" onchange="myOnLoad()" value="1.7"></input>
 
         <!-- TODO: Get location -->
 
@@ -32,6 +32,7 @@
     <p id="sun">Sun is at Dec:<span id="sunDec" >0</span> RA:<span id="sunRA" >0</span></p>
     <p id="angle">The angle between the two is <span id="angleValue" >0</span></p>
     <p id="output">Your shadow will be <span id="outputHeight" >0</span>m long</p>
+    <p id="sunBurn"></p>
 </div>
 
 </body>

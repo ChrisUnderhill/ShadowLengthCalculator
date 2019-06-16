@@ -24,6 +24,8 @@ function rightAscensionFromRad(rad)
 
 var today = Date.now();
 
+//today = Date.UTC(2019,06,16,16);
+
 //30 days between 1970 and 2000
 var daysJ2000 = (today / 1000/365.25/24/3600 - 30) * 365.25;
 
@@ -76,7 +78,7 @@ function myOnLoad(){
     var zenRAText = document.getElementById("ZenithRA");
 
     zenDecText.innerHTML = x.coords.latitude.toFixed(2).toString();
-    zenRAText.innerHTML = greenwichSiderealTime2(x).toFixed(2).toString();
+    zenRAText.innerHTML = rightAscensionFromRad(degToRad(greenwichSiderealTime2(x).toFixed(2).toString()));
 
 
     var sunDecText = document.getElementById("sunDec");
@@ -88,8 +90,32 @@ function myOnLoad(){
 
     var angleText = document.getElementById("angleValue");
 
-    var angle = haversine(degToRad(x.coords.latitude), degToRad(greenwichSiderealTime2(x)*15), degToRad(DEC), RA);
-    angleText.innerHTML = angle;
+    var angle = radToDeg(haversine(degToRad(x.coords.latitude), degToRad(greenwichSiderealTime2(x)*15), degToRad(DEC), RA));
+    angleText.innerHTML = angle.toFixed(2);
+
+    var shadowText = document.getElementById("outputHeight");
+    var sunburnText = document.getElementById("sunBurn");
+
+    if (angle > 90) {
+        shadowText.innerHTML = NaN;
+        sunburnText.innerHTML = "But don't worry because you're definitely not getting burned";
+    }
+    else{
+        var heightInput = document.getElementById("height");
+
+        var shadowLength = parseFloat(heightInput.value) * Math.tan(degToRad(angle));
+
+        shadowText.innerHTML = shadowLength.toFixed(2);
+
+        console.log("shadowLength", shadowLength)
+        if (angle < 45){
+            sunburnText.innerHTML = "Burn incoming";
+        }
+        else{
+            sunburnText.innerHTML = "You're probably safe";
+        }
+    }
+
 }
     );
     console.log("Finished");
@@ -100,7 +126,7 @@ function greenwichSiderealTime2(location) {
     var hours = (daysJ2000 - days0)*24;
     var centuries = daysJ2000 / 36525;
 
-    var GMST = (6.697374558 + 0.06570982441908*days0  + 1.00273790935*hours +  0.000026*(centuries^2))%24 + 12;
+    var GMST = (6.697374558 + 0.06570982441908*days0  + 1.00273790935*hours +  0.000026*(centuries**2))%24 + 12;
     console.log(GMST)
 
     var lst = GMST + location.coords.longitude / 15;
@@ -110,6 +136,8 @@ function greenwichSiderealTime2(location) {
 }
 
 function haversine(d1,r1, d2,r2){
-    var a = (Math.sin(0.5*(d2-d1)))^2 + Math.cos(d1)*Math.cos(d2) * (Math.sin(0.5*(r2-r1)))^2;
+    console.log(d1,r1,d2,r2);
+    var a = (Math.sin(0.5*(d2-d1)))**2 + Math.cos(d1)*Math.cos(d2) * (Math.sin(0.5*(r2-r1)))**2;
+    console.log(a);
     return 2 * Math.asin(Math.sqrt(a));
 }
