@@ -2,7 +2,7 @@
   "name": "ShadowLengthCalculator",
   "short_name": "Shadow",
   "lang": "en-GB",
-  "start_url": "/index.html",
+  "start_url": "/ShadowLengthCalculator/",
   "display": "standalone",
   "theme_color": "aliceblue",
   "icons": [
