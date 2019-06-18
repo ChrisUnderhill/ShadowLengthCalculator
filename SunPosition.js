@@ -40,8 +40,6 @@ function getLocation(callback) {
 }
 
 function myOnLoad(){
-    console.log("Starting OnLoad");
-
     var today = Date.now();
 
     var timeText = document.getElementById("dateTimeText");
@@ -52,8 +50,6 @@ function myOnLoad(){
 
     //30 days between 1970 and 2000
     var daysJ2000 = (today / 1000/365.25/24/3600 - 30) * 365.25;
-
-    console.log(daysJ2000);
 
     var sunLongitude = 280.461 + 0.9856474*daysJ2000;
 
@@ -117,7 +113,6 @@ function myOnLoad(){
 
         shadowText.innerHTML = shadowLength.toPrecision(4);
 
-        console.log("shadowLength", shadowLength)
         if (angle < 45){
             sunburnText.innerHTML = "Burn incoming";
         }
@@ -127,7 +122,6 @@ function myOnLoad(){
     }
     }
     );
-    console.log("Finished");
 }
 
 
@@ -151,9 +145,7 @@ function localSiderealTime(location, daysJ2000) {
 }
 
 function haversine(d1,r1, d2,r2){
-    console.log(d1,r1,d2,r2);
     var a = (Math.sin(0.5*(d2-d1)))**2 + Math.cos(d1)*Math.cos(d2) * (Math.sin(0.5*(r2-r1)))**2;
-    console.log(a);
     return 2 * Math.asin(Math.sqrt(a));
 }
 
