@@ -1,5 +1,3 @@
-console.log( 'Hello, world!' );
-
 function degToRad(deg)
 {
     return deg /180 * Math.PI;
@@ -24,18 +22,8 @@ function rightAscensionFromHours(hours, precision)
 
 function rightAscensionFromRad(rad, precision)
 {
-    return rightAscensionFromHours(rad /(2*Math.PI) * 24)
+    return rightAscensionFromHours(rad /(2*Math.PI) * 24, precision)
 }
-
-
-
-
-
-var refreshPeriod = 1000;
-
-var timer = setInterval(myOnLoad, refreshPeriod);
-
-var loc = -1;
 
 function getLocation(callback) {
     if (loc === -1) {
@@ -137,8 +125,7 @@ function myOnLoad(){
             sunburnText.innerHTML = "You're probably safe";
         }
     }
-
-}
+    }
     );
     console.log("Finished");
 }
@@ -169,3 +156,10 @@ function haversine(d1,r1, d2,r2){
     console.log(a);
     return 2 * Math.asin(Math.sqrt(a));
 }
+
+
+var refreshPeriod = 1000;
+
+var timer = setInterval(myOnLoad, refreshPeriod);
+
+var loc = -1;
