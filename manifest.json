@@ -5,6 +5,7 @@
   "start_url": "/ShadowLengthCalculator/",
   "display": "standalone",
   "theme_color": "aliceblue",
+  "background_color": "aqua",
   "icons": [
     {
       "src": "shadow512.png",
