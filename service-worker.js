@@ -4,13 +4,13 @@ const CACHE_NAME = 'static-cache-v1';
 
 const FILES_TO_CACHE = [
     'index.html', 'main.css', 'sunPosition.js'
-].map(x => location.pathname + x);
+].map(x => '/ShadowLengthCalculator/' + x);
 
 self.addEventListener('install', (evt) => {
     console.log('[ServiceWorker] Install');
     evt.waitUntil(
         caches.open(CACHE_NAME).then((cache) => {
-            console.log('[ServiceWorker] Pre-caching offline page');
+            console.log('[ServiceWorker] Pre-caching offline page', FILES_TO_CACHE);
             return cache.addAll(FILES_TO_CACHE);
         })
     );
