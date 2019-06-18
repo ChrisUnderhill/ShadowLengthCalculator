@@ -10,17 +10,25 @@ function radToDeg(rad)
     return rad * 180 / Math.PI;
 }
 
-function rightAscensionFromRad(rad)
+function rightAscensionFromHours(hours, precision)
 {
-    var h = rad /(2*Math.PI) * 24;
+    var h = hours;
     var ph = Math.floor(h);
     h = h - ph;
     var m = h*60;
     var pm = Math.floor(m);
-    var ps = ((m - pm)*60).toFixed(2);
+    var ps = ((m - pm)*60).toFixed(precision === undefined ? 5 : precision);
 
     return ph.toString() + "h " + pm.toString() + "m " + ps.toString() + "s";
 }
+
+function rightAscensionFromRad(rad, precision)
+{
+    return rightAscensionFromHours(rad /(2*Math.PI) * 24)
+}
+
+
+
 
 
 var refreshPeriod = 1000;
@@ -75,13 +83,9 @@ function myOnLoad(){
 
     var x = Math.cos(eclipticLongitude);
 
-    var RA = Math.atan2(y,x);
+    var sunRA = Math.atan2(y,x);
 
-    var printRA = rightAscensionFromRad(RA);
-
-    var DEC = radToDeg(Math.asin(Math.sin(eclipticObliquity) * Math.sin(eclipticLongitude)).toFixed(3));
-
-    console.log(printRA, DEC);
+    var sunDEC = radToDeg(Math.asin(Math.sin(eclipticObliquity) * Math.sin(eclipticLongitude)).toFixed(3));
 
     getLocation(x =>
         {
@@ -96,20 +100,20 @@ function myOnLoad(){
     var zenRAText = document.getElementById("ZenithRA");
 
     zenDecText.innerHTML = x.coords.latitude.toFixed(2).toString();
-    zenRAText.innerHTML = rightAscensionFromRad(degToRad(greenwichSiderealTime2(x, daysJ2000).toFixed(2).toString()));
+    zenRAText.innerHTML = rightAscensionFromHours(localSiderealTime(x, daysJ2000),1);
 
 
     var sunDecText = document.getElementById("sunDec");
     var sunRAText = document.getElementById("sunRA");
 
-    sunDecText.innerHTML = DEC.toFixed(2);
-    sunRAText.innerHTML = printRA;
+    sunDecText.innerHTML = sunDEC.toFixed(2);
+    sunRAText.innerHTML = rightAscensionFromRad(sunRA,2);
 
 
     var angleText = document.getElementById("angleValue");
 
-    var angle = radToDeg(haversine(degToRad(x.coords.latitude), degToRad(greenwichSiderealTime2(x, daysJ2000)*15), degToRad(DEC), RA));
-    angleText.innerHTML = angle.toFixed(2);
+    var angle = radToDeg(haversine(degToRad(x.coords.latitude), degToRad(localSiderealTime(x, daysJ2000)*15), degToRad(sunDEC), sunRA));
+    angleText.innerHTML = angle.toFixed(3);
 
     var shadowText = document.getElementById("outputHeight");
     var sunburnText = document.getElementById("sunBurn");
@@ -123,7 +127,7 @@ function myOnLoad(){
 
         var shadowLength = parseFloat(heightInput.value) * Math.tan(degToRad(angle));
 
-        shadowText.innerHTML = shadowLength.toFixed(2);
+        shadowText.innerHTML = shadowLength.toPrecision(4);
 
         console.log("shadowLength", shadowLength)
         if (angle < 45){
@@ -139,17 +143,23 @@ function myOnLoad(){
     console.log("Finished");
 }
 
-function greenwichSiderealTime2(location, daysJ2000) {
+
+function localSiderealTime(location, daysJ2000) {
+    //https://en.wikibooks.org/wiki/Astrodynamics/Time
     var days0 = Math.floor(daysJ2000);
-    var hours = (daysJ2000 - days0)*24;
+    var hoursSinceNoon = (daysJ2000 - days0)*24;
+    if (hoursSinceNoon >= 12){
+        days0 = Math.floor(daysJ2000) + 0.5;
+    } else {
+        days0 = Math.floor(daysJ2000) - 0.5;
+    }
+
     var centuries = daysJ2000 / 36525;
 
-    var GMST = (6.697374558 + 0.06570982441908*days0  + 1.00273790935*hours +  0.000026*(centuries**2))%24 + 12;
-    console.log(GMST);
+    var GMST = (6.697374558 + 0.06570982441908*days0  + 1.00273790935*((hoursSinceNoon+12)%24) +  0.000026*(centuries**2))%24;
+    GMST = GMST % 24;
 
-    var lst = GMST + location.coords.longitude / 15;
-
-    return lst;
+    return GMST + location.coords.longitude / 15;
 
 }
 
