@@ -5,6 +5,25 @@
     <title>Shadow Length Calculator</title>
     <link rel="stylesheet" type="text/css" href="main.css"/>
     <script src="SunPosition.js"></script>
+
+    <link rel="manifest" href="manifest.json">
+
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="Shadow">
+    <meta name="apple-mobile-web-app-title" content="Shadow">
+    <meta name="theme-color" content="aliceblue">
+    <meta name="msapplication-navbutton-color" content="aliceblue">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="msapplication-starturl" content="/index.html">
+
+    <link rel="icon" type="image/png" sizes="512x512" href="logo512.png">
+    <link rel="apple-touch-icon" type="image/png" sizes="512x512" href="logo512.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="logo192.png">
+    <link rel="apple-touch-icon" type="image/png" sizes="192x192" href="logo192.png">
+    <link rel="icon" type="image/png" sizes="64x64" href="logo64.png">
+    <link rel="apple-touch-icon" type="image/png" sizes="64x64" href="logo64.png">
+
 </head>
 <body onload="myOnLoad()">
 
@@ -14,11 +33,9 @@
     <form>
         <label for="height">Height (m)</label>
         <input id="height" onchange="myOnLoad()" value="1.7"></input>
-
-        <!-- TODO: Get location -->
-
     </form>
     <p id="location">You are at <span id="locationLatitude" >0</span> <span id="locationLongitude" >0</span></p>
+    <p id="dateTime">The current date and time is <span id="dateTimeText" >0</span></p>
     <p id="zenith">Zenith is at Dec:<span id="ZenithDec" >0</span> RA:<span id="ZenithRA" >0</span></p>
     <p id="sun">Sun is at Dec:<span id="sunDec" >0</span> RA:<span id="sunRA" >0</span></p>
     <p id="angle">The angle between the two is <span id="angleValue" >0</span></p>
