@@ -42,10 +42,16 @@
 <div class="content">
     <h1>Shadow Length Calculator</h1>
 
-    <form>
-        <label for="height">Height (m)</label>
-        <input id="height" onchange="myOnLoad()" value="1.7"></input>
-    </form>
+    <label for="height">Height (m)</label>
+    <input id="height" onchange="myOnLoad()" value="1.7" type="number"/>
+
+    <div class="radio_container">
+    <input type="radio" id="default-loc" name="location" checked/><label for="default-loc"><img src="locate.png" height="20px" width="20px"/> Use my location</label>
+    <input type="radio" id="coord_loc" name="location"/><label for="coord_loc"><img src="globe.png" height="20px" width="20px"/>Enter lattitude and longitude</label>
+    <input type="radio" id="google_loc" name="location"/><label for="google_loc"><img src="gmap.png" height="20px" width="20px"/>Search with Google Maps</label>
+    </div>
+
+
     <p id="location">You are at <span class="avoidwrap"></span><span id="locationLatitude" >0</span> <span id="locationLongitude" >0</span></span></p>
     <p id="dateTime">The current date and time is <span class="avoidwrap"><span id="dateTimeText" >0</span></span></p>
     <p id="zenith">Zenith is at <span class="avoidwrap">Dec:<span id="ZenithDec" >0</span></span> <span class="avoidwrap">RA:<span id="ZenithRA" >0</span></span></p>
