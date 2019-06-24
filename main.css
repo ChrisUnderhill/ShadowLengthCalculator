@@ -19,14 +19,6 @@ body {
     background-color: aliceblue;
 }
 
-@media only screen and (max-width: 600px) {
-    body {
-        width: 90%;
-        left: 5%;
-        right: 5%;
-    }
-}
-
 input {
     background-color: aliceblue;
 }
@@ -88,4 +80,34 @@ img {
 
 span.avoidwrap {
     display:inline-block;
+}
+
+.important {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+}
+
+.important p {
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.nerdy {
+
+}
+
+@media only screen and (max-width: 600px) {
+    body {
+        width: 90%;
+        left: 5%;
+        right: 5%;
+    }
+
+    input[type="radio"] + label {
+        flex-direction: column;
+    }
 }
