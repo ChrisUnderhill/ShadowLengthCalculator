@@ -25,7 +25,7 @@ function rightAscensionFromRad(rad, precision)
     return rightAscensionFromHours(rad /(2*Math.PI) * 24, precision)
 }
 
-function getLocation(callback) {
+function getMyLocation(callback) {
     if (loc === -1) {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(x => {loc=x;});
@@ -36,6 +36,22 @@ function getLocation(callback) {
     }
     else {
         callback(loc);
+    }
+}
+
+function getLocation(callback) {
+    let locationradio = document.querySelector('input[name="location"]:checked').value;
+    switch(locationradio) {
+        case "auto" :
+            getMyLocation(callback);
+            break;
+        case "manual" :
+            let input_latitude = document.getElementById("input-latitude").value;
+            let input_longitude = document.getElementById("input-longitude").value;
+            callback({coords: {latitude: parseFloat(input_latitude), longitude: parseFloat(input_longitude)}})
+            break;
+        default:
+            callback({coords: {latitude: 0, longitude: 0}})
     }
 }
 
@@ -103,7 +119,7 @@ function myOnLoad(){
     var sunburnText = document.getElementById("sunBurn");
 
     if (angle > 90) {
-        shadowText.innerHTML = NaN;
+        shadowText.innerHTML = "-";
         sunburnText.innerHTML = "But don't worry because you're definitely not getting burned";
     }
     else{
