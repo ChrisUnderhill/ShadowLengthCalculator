@@ -46,9 +46,29 @@
     <input id="height" onchange="myOnLoad()" value="1.7" type="number"/>
 
     <div class="radio_container">
-        <input type="radio" id="default-loc" name="location" checked/><label for="default-loc"><img src="locate.png" height="20px" width="20px"/> Use my location</label>
-        <input type="radio" id="coord_loc" name="location"/><label for="coord_loc"><img src="globe.png" height="20px" width="20px"/>Enter lattitude and longitude</label>
-        <input type="radio" id="google_loc" name="location"/><label for="google_loc"><img src="gmap.png" height="20px" width="20px"/>Search with Google Maps</label>
+        <input type="radio" id="default-loc" name="location" checked/>
+        <label for="default-loc">
+            <img src="locate.png" height="20px" width="20px"/>
+            Use my location
+        </label>
+
+        <input type="radio" id="coord_loc" name="location"/>
+        <label for="coord_loc"><img src="globe.png" height="20px" width="20px"/>Enter latitude and longitude</label>
+
+        <input type="radio" id="google_loc" name="location"/>
+        <label for="google_loc"><img src="gmap.png" height="20px" width="20px"/>Search with Google Maps</label>
+
+        <div class="loc-content">
+            <p>This is tab 1</p>
+        </div>
+        <p/>
+        <div class="loc-content">
+            <p>This is tab 2</p>
+        </div>
+        <p/>
+        <div class="loc-content">
+            <p>This is tab 3</p>
+        </div>
     </div>
 
     <div class="important">
