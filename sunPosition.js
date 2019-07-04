@@ -165,6 +165,10 @@ function initMap() {
     });
 }
 
+function changeTimeButton(){
+    console.log("Changing Time");
+}
+
 function localSiderealTime(location, daysJ2000) {
     //https://en.wikibooks.org/wiki/Astrodynamics/Time
     var days0 = Math.floor(daysJ2000);
