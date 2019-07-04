@@ -65,6 +65,7 @@ function myOnLoad(){
 
     var timeText = document.getElementById("dateTimeText");
 
+    if (timeText !== null)
     timeText.innerHTML = new Date().toLocaleString();
 
     //today = Date.UTC(2019,06,16,16);
@@ -165,8 +166,20 @@ function initMap() {
     });
 }
 
+
 function changeTimeButton(){
     console.log("Changing Time");
+
+
+    document.getElementById('dateTime').innerHTML = `Time travel to:
+    <label for="input-date">Date:</label>
+    <input type="date" id="input-date" value=""/>
+        <p style="display: inline-block"></p>
+
+        <label for="input-longitude">Time:</label>
+    <input type="time" id="input-longitude" value=""/>
+        <p style="display: inline-block"></p>
+    `
 }
 
 function localSiderealTime(location, daysJ2000) {
