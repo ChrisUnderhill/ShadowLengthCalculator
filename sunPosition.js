@@ -50,6 +50,11 @@ function getLocation(callback) {
             let input_longitude = document.getElementById("input-longitude").value;
             callback({coords: {latitude: parseFloat(input_latitude), longitude: parseFloat(input_longitude)}})
             break;
+        case "google":
+            let input_map_latitude = document.getElementById("locationMapLat").innerHTML;
+            let input_map_longitude = document.getElementById("locationMapLong").innerHTML;
+            callback({coords: {latitude: parseFloat(input_map_latitude), longitude: parseFloat(input_map_longitude)}})
+            break;
         default:
             callback({coords: {latitude: 0, longitude: 0}})
     }
@@ -119,7 +124,7 @@ function myOnLoad(){
     var sunburnText = document.getElementById("sunBurn");
 
     if (angle > 90) {
-        shadowText.innerHTML = "-";
+        shadowText.innerHTML = "∞";
         sunburnText.innerHTML = "But don't worry because you're definitely not getting burned";
     }
     else{
@@ -157,7 +162,6 @@ function initMap() {
         document.getElementById('locationMapLat').innerHTML = latLng.lat().toFixed(2) + (latLng.lat()>0 ? "N" : "S");
         document.getElementById('locationMapLong').innerHTML = latLng.lng().toFixed(2) + (latLng.lng()>0 ? "E" : "W");
         marker.setPosition(latLng);
-
     });
 }
 
@@ -186,7 +190,7 @@ function haversine(d1,r1, d2,r2){
 }
 
 
-var refreshPeriod = 1000;
+var refreshPeriod = 50;
 
 var timer = setInterval(myOnLoad, refreshPeriod);
 
