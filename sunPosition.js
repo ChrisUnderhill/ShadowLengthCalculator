@@ -170,16 +170,24 @@ function initMap() {
 function changeTimeButton(){
     console.log("Changing Time");
 
+    var d = new Date();
+    var datestring =   d.getFullYear() + "-" + (d.getMonth()+1).toString().padStart(2, "0") + "-" + d.getDate().toString().padStart(2, "0") ;
+    var timestring = d.getHours().toString().padStart(2, "0") + ":" + d.getMinutes().toString().padStart(2, "0") + ":" + d.getSeconds().toString().padStart(2, "0");
 
     document.getElementById('dateTime').innerHTML = `Time travel to:
     <label for="input-date">Date:</label>
-    <input type="date" id="input-date" value=""/>
+    <input type="date" id="input-date" value="` + datestring + `"/>
         <p style="display: inline-block"></p>
 
         <label for="input-longitude">Time:</label>
-    <input type="time" id="input-longitude" value=""/>
+    <input type="time" id="input-longitude" value="` + timestring + `"/>
         <p style="display: inline-block"></p>
+        <button type="button" onclick="nowTimeButton()">Now</button>
     `
+}
+
+function nowTimeButton(){
+    console.log("Now Time");
 }
 
 function localSiderealTime(location, daysJ2000) {
