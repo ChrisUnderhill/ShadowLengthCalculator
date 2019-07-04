@@ -140,6 +140,26 @@ function myOnLoad(){
     );
 }
 
+function initMap() {
+    // The location of Uluru
+    var London = {lat: 51, lng: 0};
+    // The map, centered at Uluru
+    var map = new google.maps.Map(
+        document.getElementById('map'), {zoom: 4, center: London});
+    // The marker, positioned at Uluru
+    var marker = new google.maps.Marker({position: London, map: map});
+
+
+    google.maps.event.addListener(map, "click", function (e) {
+
+        //lat and lng is available in e object
+        var latLng = e.latLng;
+        document.getElementById('locationMapLat').innerHTML = latLng.lat().toFixed(2) + (latLng.lat()>0 ? "N" : "S");
+        document.getElementById('locationMapLong').innerHTML = latLng.lng().toFixed(2) + (latLng.lng()>0 ? "E" : "W");
+        marker.setPosition(latLng);
+
+    });
+}
 
 function localSiderealTime(location, daysJ2000) {
     //https://en.wikibooks.org/wiki/Astrodynamics/Time

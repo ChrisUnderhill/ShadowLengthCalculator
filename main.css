@@ -19,6 +19,11 @@ body {
     background-color: aliceblue;
 }
 
+#map {
+    height:400px;
+    width: 100%;
+}
+
 input {
     background-color: aliceblue;
 }

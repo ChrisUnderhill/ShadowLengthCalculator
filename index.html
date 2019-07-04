@@ -36,6 +36,9 @@
         });
         }
     </script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUGGg3gyPPJakU_BdIZCB0K_NfRQuuWAE&callback=initMap">
+    </script>
 </head>
 <body onload="myOnLoad()">
 
@@ -74,7 +77,8 @@
         </div>
         <p/>
         <div class="loc-content">
-            <p>This feature is not implemented yet</p>
+            <div id="map"></div>
+            <p id="locationMap">You are at <span class="avoidwrap"></span><span id="locationMapLat" >0</span> <span id="locationMapLong" >0</span></span></p>
         </div>
     </div>
 
