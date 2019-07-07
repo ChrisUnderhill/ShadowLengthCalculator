@@ -39,6 +39,8 @@ function getMyLocation(callback) {
     }
 }
 
+var isNow = true;
+
 function getLocation(callback) {
     let locationradio = document.querySelector('input[name="location"]:checked').value;
     switch(locationradio) {
@@ -74,7 +76,7 @@ function myOnLoad(){
     var inputDate = document.getElementById("input-date");
     var inputTime = document.getElementById("input-time");
 
-    if (inputDate !== null){
+    if (!isNow){
         today = parseDateTime(inputDate.value, inputTime.value);
         //console.log("INSIDE", today);
     }
@@ -187,30 +189,33 @@ function initMap() {
 
 
 function changeTimeButton(){
-    console.log("Changing Time");
+    isNow = false;
+
+    var now_div = document.getElementById("now");
+    var time_travel_div = document.getElementById("time-travel");
+
+    now_div.setAttribute("style", "display: none");
+    time_travel_div.setAttribute("style", "display: auto");
 
     var d = new Date();
     var datestring =   d.getFullYear() + "-" + (d.getMonth()+1).toString().padStart(2, "0") + "-" + d.getDate().toString().padStart(2, "0") ;
     var timestring = d.getHours().toString().padStart(2, "0") + ":" + d.getMinutes().toString().padStart(2, "0") + ":" + d.getSeconds().toString().padStart(2, "0");
 
-    document.getElementById('dateTime').innerHTML = `Time travel to:
-    <label for="input-date">Date:</label>
-    <input type="date" id="input-date" value="` + datestring + `"/>
-        <p style="display: inline-block"></p>
+    var input_date = document.getElementById("input-date");
+    var input_time = document.getElementById("input-time");
 
-        <label for="input-time">Time:</label>
-    <input type="time" id="input-time" value="` + timestring + `"/>
-        <p style="display: inline-block"></p>
-        <button type="button" onclick="nowTimeButton()">Now</button>
-    `
+    input_date.value = datestring;
+    input_time.value = timestring;
 }
 
 function nowTimeButton(){
-    console.log("Going to now");
-    document.getElementById('dateTime').innerHTML = `
-        <p id="dateTime">The current date and time is <span class="avoidwrap"><span id="dateTimeText" >0</span></span> <button type="button" onclick="changeTimeButton()">Change</button> </p>
+    isNow = true;
 
-    `
+    var now_div = document.getElementById("now");
+    var time_travel_div = document.getElementById("time-travel");
+
+    time_travel_div.setAttribute("style", "display: none");
+    now_div.setAttribute("style", "display: auto");
 }
 
 function localSiderealTime(location, daysJ2000) {

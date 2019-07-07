@@ -88,7 +88,19 @@
     </div>
 
     <div class="nerdy">
-        <p id="dateTime">The current date and time is <span class="avoidwrap"><span id="dateTimeText" >0</span></span> <button type="button" onclick="changeTimeButton()">Change</button> </p>
+        <p id="dateTime">
+            <div id="now">The current date and time is <span class="avoidwrap"><span id="dateTimeText" >0</span></span> <button type="button" onclick="changeTimeButton()">Change</button></div>
+            <div id="time-travel" style="display: none">Time travel to:
+                <label for="input-date">Date:</label>
+                <input type="date" id="input-date" value="` + datestring + `"/>
+                <p style="display: inline-block"></p>
+
+                <label for="input-time">Time:</label>
+                <input type="time" id="input-time" value="` + timestring + `"/>
+                <p style="display: inline-block"></p>
+                <button type="button" onclick="nowTimeButton()">Now</button>
+            </div>
+        </p>
         <p id="zenith">Zenith is at <span class="avoidwrap">Dec:<span id="ZenithDec" >0</span></span> <span class="avoidwrap">RA:<span id="ZenithRA" >0</span></span></p>
         <p id="sun">Sun is at <span class="avoidwrap">Dec:<span id="sunDec" >0</span></span> <span class="avoidwrap">RA:<span id="sunRA" >0</span></span></p>
         <p id="angle">The angle between the two is <span id="angleValue" >0</span></p>
