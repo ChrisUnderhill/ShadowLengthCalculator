@@ -65,7 +65,7 @@ function getLocation(callback) {
 function parseDateTime(date, time) {
     var b = date.split(/\D/);
     var a = time.split(":");
-    return new Date(b[0], --b[1], b[2], a[0], a[1], a[2]);
+    return new Date(b[0], --b[1], b[2], a[0], a[1]);
 }
 
 
