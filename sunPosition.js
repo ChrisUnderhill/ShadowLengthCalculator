@@ -60,18 +60,37 @@ function getLocation(callback) {
     }
 }
 
+function parseDateTime(date, time) {
+    var b = date.split(/\D/);
+    var a = time.split(":");
+    return new Date(b[0], --b[1], b[2], a[0], a[1], a[2]);
+}
+
+
 function myOnLoad(){
-    var today = Date.now();
+    var today = new Date();
+
+
+    var inputDate = document.getElementById("input-date");
+    var inputTime = document.getElementById("input-time");
+
+    if (inputDate !== null){
+        today = parseDateTime(inputDate.value, inputTime.value);
+        //console.log("INSIDE", today);
+    }
+
+    //console.log("OUTSIDE", today);
+    var daysJ2000 = (today / 1000/365.25/24/3600 - 30) * 365.25;
 
     var timeText = document.getElementById("dateTimeText");
 
     if (timeText !== null)
-    timeText.innerHTML = new Date().toLocaleString();
+        timeText.innerHTML = today.toLocaleString();
 
     //today = Date.UTC(2019,06,16,16);
 
     //30 days between 1970 and 2000
-    var daysJ2000 = (today / 1000/365.25/24/3600 - 30) * 365.25;
+
 
     var sunLongitude = 280.461 + 0.9856474*daysJ2000;
 
@@ -95,54 +114,54 @@ function myOnLoad(){
 
     getLocation(x =>
         {
-    var latText = document.getElementById("locationLatitude");
-    var longText = document.getElementById("locationLongitude");
+            var latText = document.getElementById("locationLatitude");
+            var longText = document.getElementById("locationLongitude");
 
-    latText.innerHTML = x.coords.latitude.toFixed(2).toString() + (x.coords.latitude > 0 ? "N" : "S");
-    longText.innerHTML = x.coords.longitude.toFixed(2).toString() + (x.coords.longitude > 0 ? "E" : "W");
-
-
-    var zenDecText = document.getElementById("ZenithDec");
-    var zenRAText = document.getElementById("ZenithRA");
-
-    zenDecText.innerHTML = x.coords.latitude.toFixed(2).toString();
-    zenRAText.innerHTML = rightAscensionFromHours(localSiderealTime(x, daysJ2000),1);
+            latText.innerHTML = x.coords.latitude.toFixed(2).toString() + (x.coords.latitude > 0 ? "N" : "S");
+            longText.innerHTML = x.coords.longitude.toFixed(2).toString() + (x.coords.longitude > 0 ? "E" : "W");
 
 
-    var sunDecText = document.getElementById("sunDec");
-    var sunRAText = document.getElementById("sunRA");
+            var zenDecText = document.getElementById("ZenithDec");
+            var zenRAText = document.getElementById("ZenithRA");
 
-    sunDecText.innerHTML = sunDEC.toFixed(2);
-    sunRAText.innerHTML = rightAscensionFromRad(sunRA,2);
+            zenDecText.innerHTML = x.coords.latitude.toFixed(2).toString();
+            zenRAText.innerHTML = rightAscensionFromHours(localSiderealTime(x, daysJ2000),1);
 
 
-    var angleText = document.getElementById("angleValue");
+            var sunDecText = document.getElementById("sunDec");
+            var sunRAText = document.getElementById("sunRA");
 
-    var angle = radToDeg(haversine(degToRad(x.coords.latitude), degToRad(localSiderealTime(x, daysJ2000)*15), degToRad(sunDEC), sunRA));
-    angleText.innerHTML = angle.toFixed(3);
+            sunDecText.innerHTML = sunDEC.toFixed(2);
+            sunRAText.innerHTML = rightAscensionFromRad(sunRA,2);
 
-    var shadowText = document.getElementById("outputHeight");
-    var sunburnText = document.getElementById("sunBurn");
 
-    if (angle > 90) {
-        shadowText.innerHTML = "∞";
-        sunburnText.innerHTML = "But don't worry because you're definitely not getting burned";
-    }
-    else{
-        var heightInput = document.getElementById("height");
+            var angleText = document.getElementById("angleValue");
 
-        var shadowLength = parseFloat(heightInput.value) * Math.tan(degToRad(angle));
+            var angle = radToDeg(haversine(degToRad(x.coords.latitude), degToRad(localSiderealTime(x, daysJ2000)*15), degToRad(sunDEC), sunRA));
+            angleText.innerHTML = angle.toFixed(3);
 
-        shadowText.innerHTML = shadowLength.toPrecision(4);
+            var shadowText = document.getElementById("outputHeight");
+            var sunburnText = document.getElementById("sunBurn");
 
-        if (angle < 45){
-            sunburnText.innerHTML = "Burn incoming";
+            if (angle > 90) {
+                shadowText.innerHTML = "∞";
+                sunburnText.innerHTML = "But don't worry because you're definitely not getting burned";
+            }
+            else{
+                var heightInput = document.getElementById("height");
+
+                var shadowLength = parseFloat(heightInput.value) * Math.tan(degToRad(angle));
+
+                shadowText.innerHTML = shadowLength.toPrecision(4);
+
+                if (angle < 45){
+                    sunburnText.innerHTML = "Burn incoming";
+                }
+                else{
+                    sunburnText.innerHTML = "You're probably safe";
+                }
+            }
         }
-        else{
-            sunburnText.innerHTML = "You're probably safe";
-        }
-    }
-    }
     );
 }
 
@@ -179,15 +198,19 @@ function changeTimeButton(){
     <input type="date" id="input-date" value="` + datestring + `"/>
         <p style="display: inline-block"></p>
 
-        <label for="input-longitude">Time:</label>
-    <input type="time" id="input-longitude" value="` + timestring + `"/>
+        <label for="input-time">Time:</label>
+    <input type="time" id="input-time" value="` + timestring + `"/>
         <p style="display: inline-block"></p>
         <button type="button" onclick="nowTimeButton()">Now</button>
     `
 }
 
 function nowTimeButton(){
-    console.log("Now Time");
+    console.log("Going to now");
+    document.getElementById('dateTime').innerHTML = `
+        <p id="dateTime">The current date and time is <span class="avoidwrap"><span id="dateTimeText" >0</span></span> <button type="button" onclick="changeTimeButton()">Change</button> </p>
+
+    `
 }
 
 function localSiderealTime(location, daysJ2000) {
