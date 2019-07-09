@@ -62,14 +62,36 @@ function getLocation(callback) {
     }
 }
 
+function onHeightChange(){
+    var heightInput = document.getElementById("height");
+
+    localStorage.setItem("Height", heightInput.value);
+
+    console.log(localStorage.getItem("Height"));
+}
+
 function parseDateTime(date, time) {
     var b = date.split(/\D/);
     var a = time.split(":");
     return new Date(b[0], --b[1], b[2], a[0], a[1]);
 }
 
+function firstLoad(){
+    var heightInput = document.getElementById("height");
 
-function myOnLoad(){
+    if (localStorage.getItem("Height") === null){
+        localStorage.setItem("Height", 1.71);
+        console.log("Setting");
+    }
+    else{
+        heightInput.value = localStorage.getItem("Height");
+        console.log("Getting");
+
+    }
+    console.log("Local Storage says ", localStorage.getItem("Height"))
+}
+
+function calculate(){
     var today = new Date();
 
 
@@ -199,7 +221,7 @@ function changeTimeButton(){
 
     var d = new Date();
     var datestring =   d.getFullYear() + "-" + (d.getMonth()+1).toString().padStart(2, "0") + "-" + d.getDate().toString().padStart(2, "0") ;
-    var timestring = d.getHours().toString().padStart(2, "0") + ":" + d.getMinutes().toString().padStart(2, "0") + ":" + d.getSeconds().toString().padStart(2, "0");
+    var timestring = d.getHours().toString().padStart(2, "0") + ":" + d.getMinutes().toString().padStart(2, "0");
 
     var input_date = document.getElementById("input-date");
     var input_time = document.getElementById("input-time");
@@ -245,6 +267,6 @@ function haversine(d1,r1, d2,r2){
 
 var refreshPeriod = 50;
 
-var timer = setInterval(myOnLoad, refreshPeriod);
+var timer = setInterval(calculate, refreshPeriod);
 
 var loc = -1;

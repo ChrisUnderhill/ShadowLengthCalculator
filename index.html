@@ -40,13 +40,13 @@
             src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAUGGg3gyPPJakU_BdIZCB0K_NfRQuuWAE&callback=initMap">
     </script>
 </head>
-<body onload="myOnLoad()">
+<body onload="firstLoad()">
 
 <div class="content">
     <h1>Shadow Length Calculator</h1>
 
     <label for="height">Height (m)</label>
-    <input id="height" onchange="myOnLoad()" value="1.7" type="number"/>
+    <input id="height" onchange="onHeightChange()" value="1.7" type="number"/>
 
     <div class="radio_container">
         <input type="radio" id="default-loc" name="location" value="auto" checked onclick="myOnLoad()"/>
