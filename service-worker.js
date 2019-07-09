@@ -3,7 +3,7 @@
 const CACHE_NAME = 'static-cache-v3';
 
 const FILES_TO_CACHE = [
-    'index.html', 'main.css', 'sunPosition.js'
+    'index.html', 'main.css', 'sunPosition.js', 'globe.png', 'gmap.png', 'locate.png'
 ].map(x => '/ShadowLengthCalculator/' + x);
 
 self.addEventListener('install', (evt) => {
