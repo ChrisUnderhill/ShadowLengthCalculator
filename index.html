@@ -49,16 +49,16 @@
     <input id="height" onchange="onHeightChange()" value="1.7" type="number"/>
 
     <div class="radio_container">
-        <input type="radio" id="default-loc" name="location" value="auto" checked onclick="myOnLoad()"/>
+        <input type="radio" id="default-loc" name="location" value="auto" checked onclick="calculate()"/>
         <label for="default-loc">
             <img src="locate.png" height="20px" width="20px"/>
             Use my location
         </label>
 
-        <input type="radio" id="coord_loc" name="location" value="manual" onclick="myOnLoad()"/>
+        <input type="radio" id="coord_loc" name="location" value="manual" onclick="calculate()"/>
         <label for="coord_loc"><img src="globe.png" height="20px" width="20px"/>Enter latitude and longitude</label>
 
-        <input type="radio" id="google_loc" name="location" value="google" onclick="myOnLoad()"/>
+        <input type="radio" id="google_loc" name="location" value="google" onclick="calculate()"/>
         <label for="google_loc"><img src="gmap.png" height="20px" width="20px"/>Search with Google Maps</label>
 
         <div class="loc-content">

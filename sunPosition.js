@@ -81,14 +81,28 @@ function firstLoad(){
 
     if (localStorage.getItem("Height") === null){
         localStorage.setItem("Height", 1.71);
-        console.log("Setting");
     }
     else{
         heightInput.value = localStorage.getItem("Height");
-        console.log("Getting");
-
     }
-    console.log("Local Storage says ", localStorage.getItem("Height"))
+
+    getLocation(x =>
+    {
+        var input_latitude = document.getElementById("input-latitude");
+        var input_longitude = document.getElementById("input-longitude");
+
+        var input_map_latitude = document.getElementById("locationMapLat");
+        var input_map_longitude = document.getElementById("locationMapLong");
+
+        input_latitude.value = x.coords.latitude.toFixed(2);
+        input_longitude.value = x.coords.longitude.toFixed(2);
+
+        input_map_latitude.innerHTML = x.coords.latitude.toFixed(2);
+        input_map_longitude.innerHTML = x.coords.longitude.toFixed(2);
+
+        marker.setPosition({lat:x.coords.latitude, lng:x.coords.longitude});
+        map.panTo({lat:x.coords.latitude, lng:x.coords.longitude});
+    })
 }
 
 function calculate(){
@@ -190,17 +204,18 @@ function calculate(){
 }
 
 function initMap() {
-    // The location of Uluru
-    var London = {lat: 51, lng: 0};
-    // The map, centered at Uluru
-    var map = new google.maps.Map(
+    var input_map_latitude = parseFloat(document.getElementById("locationMapLat").innerHTML);
+    var input_map_longitude = parseFloat(document.getElementById("locationMapLong").innerHTML);
+
+    var London = {lat: input_map_latitude, lng: input_map_longitude};
+
+    map = new google.maps.Map(
         document.getElementById('map'), {zoom: 4, center: London});
-    // The marker, positioned at Uluru
-    var marker = new google.maps.Marker({position: London, map: map});
+
+    marker = new google.maps.Marker({position: London, map: map});
 
 
     google.maps.event.addListener(map, "click", function (e) {
-
         //lat and lng is available in e object
         var latLng = e.latLng;
         document.getElementById('locationMapLat').innerHTML = latLng.lat().toFixed(2) + (latLng.lat()>0 ? "N" : "S");
@@ -270,3 +285,7 @@ var refreshPeriod = 50;
 var timer = setInterval(calculate, refreshPeriod);
 
 var loc = -1;
+
+var map;
+
+var marker;
